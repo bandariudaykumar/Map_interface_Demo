@@ -138,7 +138,6 @@ export default function BookLibraryMap() {
             >
               Check
             </Button>
-           
           </div>
 
           {/* Book Library */}
@@ -154,22 +153,19 @@ export default function BookLibraryMap() {
             {/* First Row of Books */}
             <div className="flex justify-center gap-3 mb-4">
               {firstRowBooks.map((book) => {
-                const isSelected = Number(selectedBookId) === book.id;
                 const isPulsing = pulsingBookId === book.id;
-                const selectedBgColor = isDarkMode ? "bg-white" : "bg-black";
+                const pulseColor = isDarkMode ? "bg-white text-black" : "bg-black text-white";
 
                 return (
                   <div
                     key={book.id}
-                    className={`relative transform transition-all duration-300 ${
-                      isSelected ? "scale-110 z-10" : "hover:scale-105"
-                    }`}
+                    className={`relative transform transition-all duration-300`}
                   >
                     <div
                       className={`w-16 h-28 ${
-                        isPulsing ? selectedBgColor : getBookColor(book.title)
+                        isPulsing ? pulseColor : getBookColor(book.title)
                       } rounded-r-md shadow-lg border-l-4 border-l-gray-200 border-r border-r-gray-800 flex flex-col justify-between p-2 ${
-                        isPulsing ? (isDarkMode ? "text-black" : "text-white") : "text-white"
+                        isPulsing ? "" : "text-white"
                       } relative overflow-hidden ${
                         isPulsing ? "animate-infinite-pulse" : ""
                       }`}
@@ -197,22 +193,19 @@ export default function BookLibraryMap() {
             {/* Second Row of Books */}
             <div className="flex justify-center gap-3">
               {secondRowBooks.map((book) => {
-                const isSelected = Number(selectedBookId) === book.id;
                 const isPulsing = pulsingBookId === book.id;
-                const selectedBgColor = isDarkMode ? "bg-white" : "bg-black";
+                const pulseColor = isDarkMode ? "bg-white text-black" : "bg-black text-white";
 
                 return (
                   <div
                     key={book.id}
-                    className={`relative transform transition-all duration-300 ${
-                      isSelected ? "scale-110 z-10" : "hover:scale-105"
-                    }`}
+                    className={`relative transform transition-all duration-300`}
                   >
                     <div
                       className={`w-16 h-28 ${
-                        isPulsing ? selectedBgColor : getBookColor(book.title)
+                        isPulsing ? pulseColor : getBookColor(book.title)
                       } rounded-r-md shadow-lg border-l-4 border-l-gray-200 border-r border-r-gray-800 flex flex-col justify-between p-2 ${
-                        isPulsing ? (isDarkMode ? "text-black" : "text-white") : "text-white"
+                        isPulsing ? "" : "text-white"
                       } relative overflow-hidden ${
                         isPulsing ? "animate-infinite-pulse" : ""
                       }`}
@@ -270,8 +263,27 @@ export default function BookLibraryMap() {
           }
         }
 
+        @keyframes infinite-pulse-dark {
+          0% {
+            transform: translateZ(0) scale(1);
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+          }
+          50% {
+            transform: translateZ(10px) scale(1.05);
+            box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.4);
+          }
+          100% {
+            transform: translateZ(0) scale(1);
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+          }
+        }
+
         .animate-infinite-pulse {
           animation: infinite-pulse 1.5s infinite ease-out;
+        }
+
+        .dark .animate-infinite-pulse {
+          animation: infinite-pulse-dark 1.5s infinite ease-out;
         }
 
         body {
@@ -281,7 +293,7 @@ export default function BookLibraryMap() {
 
         /* Dark mode dropdown content background and text */
         .bg-gray-900 .radix-select-content {
-          background-color: #1f2937 !important; /* Tailwind gray-800 */
+          background-color: #1f2937 !important;
           color: white !important;
         }
 
@@ -301,7 +313,7 @@ export default function BookLibraryMap() {
         /* Light mode dropdown item hover and focus */
         .bg-white .radix-select-content .radix-select-item:hover,
         .bg-white .radix-select-content .radix-select-item:focus {
-          background-color: #f3f4f6 !important; /* Tailwind gray-100 */
+          background-color: #f3f4f6 !important;
           color: black !important;
         }
 
