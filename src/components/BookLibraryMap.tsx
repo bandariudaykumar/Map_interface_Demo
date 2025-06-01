@@ -247,7 +247,7 @@ export default function BookLibraryMap() {
         </div>
       </div>
 
-      <style jsx global>{`
+      <style >{`
         @keyframes infinite-pulse {
           0% {
             transform: translateZ(0) scale(1);
@@ -321,7 +321,7 @@ export default function BookLibraryMap() {
         button:hover {
           color: inherit !important;
         }
-      `}</style>
+      `}</style>  
     </div>
   );
 }
