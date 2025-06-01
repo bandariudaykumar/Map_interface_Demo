@@ -247,7 +247,7 @@ export default function BookLibraryMap() {
         </div>
       </div>
 
-      <style >{`
+      <style>{`
         @keyframes infinite-pulse {
           0% {
             transform: translateZ(0) scale(1);
