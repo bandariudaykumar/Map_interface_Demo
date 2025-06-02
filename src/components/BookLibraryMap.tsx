@@ -79,7 +79,7 @@ export default function BookLibraryMap() {
               {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
             <h1 className={`text-2xl font-bold mb-1 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-              Java Map Concept Demo
+              Exploring Map Interface
             </h1>
             <p className={`text-sm ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
               Understanding Key-Value Pairs with Book Library
