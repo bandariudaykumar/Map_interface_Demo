@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, RotateCcw } from "lucide-react"; // Added RotateCcw icon
 
 interface Book {
   id: number;
@@ -52,6 +52,12 @@ export default function BookLibraryMap() {
     if (selectedBookId) {
       setPulsingBookId(Number(selectedBookId));
     }
+  };
+
+  // Added reset functionality
+  const handleReset = () => {
+    setSelectedBookId("");
+    setPulsingBookId(null);
   };
 
   const firstRowBooks = books.slice(0, 5);
@@ -126,17 +132,32 @@ export default function BookLibraryMap() {
               ))}
             </SelectContent>
           </Select>
-          <Button
-            onClick={handleCheck}
-            disabled={!selectedBookId}
-            className={`px-6 py-1 ${
-              isDarkMode
-                ? "bg-white text-black hover:text-white"
-                : "bg-black text-white hover:bg-white hover:text-black !important"
-            }`}
-          >
-            Check
-          </Button>
+          
+          {/* Check and Reset buttons */}
+          <div className="flex gap-2">
+            <Button
+              onClick={handleCheck}
+              disabled={!selectedBookId}
+              className={`px-6 py-1 ${
+                isDarkMode
+                  ? "bg-white text-black hover:text-white"
+                  : "bg-black text-white hover:bg-white hover:text-black !important"
+              }`}
+            >
+              Check
+            </Button>
+            <Button
+              onClick={handleReset}
+              variant="outline"
+              className={`px-3 py-1 ${
+                isDarkMode
+                  ? "bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
+                  : "bg-gray-100 border-gray-300 text-black hover:bg-gray-200"
+              }`}
+            >
+              <RotateCcw className="h-4 w-4 mr-1" />
+            </Button>
+          </div>
         </div>
 
         {/* Book Library */}
