@@ -59,195 +59,197 @@ export default function BookLibraryMap() {
 
   return (
     <div
-      className={`min-h-screen w-full transition-colors duration-300 ${
+      className={`h-screen w-full overflow-hidden flex items-center justify-center ${
         isDarkMode ? "bg-black text-white" : "bg-white text-gray-900"
       }`}
     >
-      <div className="flex items-center justify-center min-h-screen">
-        <div className={`w-[580px] h-[600px] p-4 ${isDarkMode ? "bg-black" : "bg-white"}`}>
-          <div className="text-center mb-4 relative">
-            <Button
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              variant="outline"
-              size="sm"
-              className={`absolute right-0 top-0 ${
-                isDarkMode
-                  ? "bg-black border-gray-700 text-white hover:bg-gray-900 hover:text-white"
-                  : "bg-white border-gray-200 text-black hover:bg-gray-50 hover:text-black"
-              }`}
-            >
-              {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </Button>
-            <h1 className={`text-2xl font-bold mb-1 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-              Exploring Map Interface
-            </h1>
-            <p className={`text-sm ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
-              Understanding Key-Value Pairs with Book Library
-            </p>
-          </div>
+      <div className={`w-[580px] h-[580px] p-4 box-border`}>
+        <div className="text-center mb-4 relative">
+          <Button
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            variant="outline"
+            size="sm"
+            className={`absolute right-0 top-0 ${
+              isDarkMode
+                ? "bg-black border-gray-700 text-white hover:bg-gray-900 hover:text-white"
+                : "bg-white border-gray-200 text-black hover:bg-gray-50 hover:text-black"
+            }`}
+          >
+            {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </Button>
+          <h1 className={`text-2xl font-bold mb-1 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+            Exploring Map Interface
+          </h1>
+          <p className={`text-sm ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
+            Understanding Key-Value Pairs with Book Library
+          </p>
+        </div>
 
-          {/* Control Panel */}
-          <div className="flex items-center justify-center gap-4 flex-wrap mb-4">
-            <label
-              htmlFor="book-select"
-              className={`text-base font-semibold ${isDarkMode ? "text-white" : "text-black"}`}
+        {/* Control Panel */}
+        <div className="flex items-center justify-center gap-4 flex-wrap mb-4">
+          <label
+            htmlFor="book-select"
+            className={`text-base font-semibold ${isDarkMode ? "text-white" : "text-black"}`}
+          >
+            Book ID:
+          </label>
+          <Select value={selectedBookId} onValueChange={setSelectedBookId}>
+            <SelectTrigger
+              className={`w-32 ${
+                isDarkMode
+                  ? "bg-gray-900 border-gray-700 text-white"
+                  : "bg-white border border-gray-300 text-black"
+              }`}
+              id="book-select"
             >
-              Book ID:
-            </label>
-            <Select value={selectedBookId} onValueChange={setSelectedBookId}>
-              <SelectTrigger
-                className={`w-32 ${
-                  isDarkMode
-                    ? "bg-gray-900 border-gray-700 text-white"
-                    : "bg-white border border-gray-300 text-black"
-                }`}
-                id="book-select"
-              >
-                <SelectValue placeholder="Select ID" />
-              </SelectTrigger>
-              <SelectContent
-                className={
-                  isDarkMode
-                    ? "bg-gray-900 border-gray-700 text-white"
-                    : "bg-white border border-gray-300 text-black"
-                }
-              >
-                {books.map((book) => (
-                  <SelectItem
-                    key={book.id}
-                    value={book.id.toString()}
-                    className={`${
-                      isDarkMode
-                        ? "hover:bg-white focus:bg-white text-white"
-                        : "hover:bg-gray-100 focus:bg-gray-100 text-black"
+              <SelectValue placeholder="Select ID" />
+            </SelectTrigger>
+            <SelectContent
+              className={
+                isDarkMode
+                  ? "bg-gray-900 border-gray-700 text-white"
+                  : "bg-white border border-gray-300 text-black"
+              }
+            >
+              {books.map((book) => (
+                <SelectItem
+                  key={book.id}
+                  value={book.id.toString()}
+                  className={`${
+                    isDarkMode
+                      ? "hover:bg-white focus:bg-white text-white"
+                      : "hover:bg-gray-100 focus:bg-gray-100 text-black"
+                  }`}
+                >
+                  {book.id}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Button
+            onClick={handleCheck}
+            disabled={!selectedBookId}
+            className={`px-6 py-1 ${
+              isDarkMode
+                ? "bg-white text-black hover:text-white"
+                : "bg-black text-white hover:bg-white hover:text-black !important"
+            }`}
+          >
+            Check
+          </Button>
+        </div>
+
+        {/* Book Library */}
+        <div className="mb-4">
+          <h2
+            className={`text-xl font-bold mb-4 text-center ${
+              isDarkMode ? "text-white" : "text-gray-900"
+            }`}
+          >
+            Book Library Collection
+          </h2>
+
+          {/* First Row of Books */}
+          <div className="flex justify-center gap-3 mb-4">
+            {firstRowBooks.map((book) => {
+              const isPulsing = pulsingBookId === book.id;
+              const pulseColor = isDarkMode ? "bg-white text-black" : "bg-black text-white";
+
+              return (
+                <div
+                  key={book.id}
+                  className={`relative transform transition-all duration-300`}
+                >
+                  <div
+                    className={`w-16 h-28 ${
+                      isPulsing ? pulseColor : getBookColor(book.title)
+                    } rounded-r-md shadow-lg border-l-4 border-l-gray-200 border-r border-r-gray-800 flex flex-col justify-between p-2 ${
+                      isPulsing ? "" : "text-white"
+                    } relative overflow-hidden ${
+                      isPulsing ? "animate-infinite-pulse" : ""
                     }`}
                   >
-                    {book.id}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Button
-              onClick={handleCheck}
-              disabled={!selectedBookId}
-              className={`px-6 py-1 ${
-                isDarkMode
-                  ? "bg-white text-black hover:text-white"
-                  : "bg-black text-white hover:bg-white hover:text-black !important"
-              }`}
-            >
-              Check
-            </Button>
-          </div>
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-30"></div>
+                    <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-30"></div>
 
-          {/* Book Library */}
-          <div className="mb-4">
-            <h2
-              className={`text-xl font-bold mb-4 text-center ${
-                isDarkMode ? "text-white" : "text-gray-900"
-              }`}
-            >
-              Book Library Collection
-            </h2>
-
-            {/* First Row of Books */}
-            <div className="flex justify-center gap-3 mb-4">
-              {firstRowBooks.map((book) => {
-                const isPulsing = pulsingBookId === book.id;
-                const pulseColor = isDarkMode ? "bg-white text-black" : "bg-black text-white";
-
-                return (
-                  <div
-                    key={book.id}
-                    className={`relative transform transition-all duration-300`}
-                  >
                     <div
-                      className={`w-16 h-28 ${
-                        isPulsing ? pulseColor : getBookColor(book.title)
-                      } rounded-r-md shadow-lg border-l-4 border-l-gray-200 border-r border-r-gray-800 flex flex-col justify-between p-2 ${
-                        isPulsing ? "" : "text-white"
-                      } relative overflow-hidden ${
-                        isPulsing ? "animate-infinite-pulse" : ""
-                      }`}
+                      className={`text-xs font-bold text-center ${
+                        isPulsing ? "bg-opacity-30" : "bg-black bg-opacity-30"
+                      } rounded px-1`}
                     >
-                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-30"></div>
-                      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-30"></div>
+                      ID: {book.id}
+                    </div>
 
-                      <div
-                        className={`text-xs font-bold text-center ${
-                          isPulsing ? "bg-opacity-30" : "bg-black bg-opacity-30"
-                        } rounded px-1`}
-                      >
-                        ID: {book.id}
-                      </div>
-
-                      <div className="text-xs font-semibold text-center px-1 flex items-center justify-center h-14">
-                        <span className="leading-tight">{book.title}</span>
-                      </div>
+                    <div className="text-xs font-semibold text-center px-1 flex items-center justify-center h-14">
+                      <span className="leading-tight">{book.title}</span>
                     </div>
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
+          </div>
 
-            {/* Second Row of Books */}
-            <div className="flex justify-center gap-3">
-              {secondRowBooks.map((book) => {
-                const isPulsing = pulsingBookId === book.id;
-                const pulseColor = isDarkMode ? "bg-white text-black" : "bg-black text-white";
+          {/* Second Row of Books */}
+          <div className="flex justify-center gap-3">
+            {secondRowBooks.map((book) => {
+              const isPulsing = pulsingBookId === book.id;
+              const pulseColor = isDarkMode ? "bg-white text-black" : "bg-black text-white";
 
-                return (
+              return (
+                <div
+                  key={book.id}
+                  className={`relative transform transition-all duration-300`}
+                >
                   <div
-                    key={book.id}
-                    className={`relative transform transition-all duration-300`}
+                    className={`w-16 h-28 ${
+                      isPulsing ? pulseColor : getBookColor(book.title)
+                    } rounded-r-md shadow-lg border-l-4 border-l-gray-200 border-r border-r-gray-800 flex flex-col justify-between p-2 ${
+                      isPulsing ? "" : "text-white"
+                    } relative overflow-hidden ${
+                      isPulsing ? "animate-infinite-pulse" : ""
+                    }`}
                   >
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-30"></div>
+                    <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-30"></div>
+
                     <div
-                      className={`w-16 h-28 ${
-                        isPulsing ? pulseColor : getBookColor(book.title)
-                      } rounded-r-md shadow-lg border-l-4 border-l-gray-200 border-r border-r-gray-800 flex flex-col justify-between p-2 ${
-                        isPulsing ? "" : "text-white"
-                      } relative overflow-hidden ${
-                        isPulsing ? "animate-infinite-pulse" : ""
-                      }`}
+                      className={`text-xs font-bold text-center ${
+                        isPulsing ? "bg-opacity-30" : "bg-black bg-opacity-30"
+                      } rounded px-1`}
                     >
-                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-30"></div>
-                      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-30"></div>
+                      ID: {book.id}
+                    </div>
 
-                      <div
-                        className={`text-xs font-bold text-center ${
-                          isPulsing ? "bg-opacity-30" : "bg-black bg-opacity-30"
-                        } rounded px-1`}
-                      >
-                        ID: {book.id}
-                      </div>
-
-                      <div className="text-xs font-semibold text-center px-1 flex items-center justify-center h-14">
-                        <span className="leading-tight">{book.title}</span>
-                      </div>
+                    <div className="text-xs font-semibold text-center px-1 flex items-center justify-center h-14">
+                      <span className="leading-tight">{book.title}</span>
                     </div>
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
           </div>
+        </div>
 
-          {/* Map Explanation */}
-          <div className="mt-6">
-            <h3 className={`text-base font-bold mb-1 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-              How Java Map Works:
-            </h3>
-            <p className={`text-sm ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
-              In Java, a Map stores key-value pairs. Here, Book ID is the{" "}
-              <strong className={isDarkMode ? "text-white" : "text-black"}>key</strong> and Book
-              Title is the <strong className={isDarkMode ? "text-white" : "text-black"}>value</strong>.
-              When you search by Book ID (key), you can quickly find the corresponding Book Title
-              (value).
-            </p>
-          </div>
+        {/* Map Explanation */}
+        <div className="mt-6">
+          <h3 className={`text-base font-bold mb-1 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+            How Java Map Works:
+          </h3>
+          <p className={`text-sm ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
+            In Java, a Map stores key-value pairs. Here, Book ID is the{" "}
+            <strong className={isDarkMode ? "text-white" : "text-black"}>key</strong> and Book
+            Title is the <strong className={isDarkMode ? "text-white" : "text-black"}>value</strong>.
+            When you search by Book ID (key), you can quickly find the corresponding Book Title
+            (value).
+          </p>
         </div>
       </div>
 
       <style>{`
+        body, html {
+          overflow: hidden;
+        }
+        
         @keyframes infinite-pulse {
           0% {
             transform: translateZ(0) scale(1);
